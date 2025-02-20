@@ -1,4 +1,5 @@
-﻿using HomeBookApp.Infrastructure.Data;
+﻿using HomeBookApp.Domain.Entities;
+using HomeBookApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBookApp.Web.Controllers
@@ -16,6 +17,32 @@ namespace HomeBookApp.Web.Controllers
         {
             var villas = _db.Villas.ToList();
             return View(villas);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Villa obj)
+        {
+            if(obj.Name == obj.Description)
+            {
+                ModelState.AddModelError("Description", "The description cannot exactly match the Name");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Add(obj);
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
