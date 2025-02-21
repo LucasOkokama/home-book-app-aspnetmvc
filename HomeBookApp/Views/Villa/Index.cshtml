@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HomeBookApp.Domain.Entities.Villa>
+﻿@model IEnumerable<Villa>
 
 <div class="card border-0 p-4">
     <div class="card-header bg-success bg-gradient">
@@ -37,7 +37,7 @@
                         <td>@obj.Occupancy</td>
                         <td width="25%">
                             <div class="w-100 btn-group" role="group">
-                                <a asp-contrpller="Villa" asp-action="Update" asp-route-villaId="@obj.Id" class="btn btn-success mx-2">
+                                <a asp-controller="Villa" asp-action="Update" asp-route-villaId="@obj.Id" class="btn btn-success mx-2">
                                     <i class="bi bi-pencil-square"></i> Edit 
                                 </a>
                                 <a asp-controller="Villa" asp-action="Delete" asp-route-villaId="@obj.Id" class="btn btn-danger mx-2">
