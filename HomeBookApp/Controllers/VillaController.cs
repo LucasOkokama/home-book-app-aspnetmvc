@@ -44,5 +44,39 @@ namespace HomeBookApp.Web.Controllers
                 return View();
             }
         }
+
+        public IActionResult Update(int villaId)
+        {
+            Villa? obj = _db.Villas.Find(villaId);
+            
+            if(obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Villa obj, int villaId)
+        {
+            if (obj.Name == obj.Description)
+            {
+                ModelState.AddModelError("Description", "The description cannot exactly match the Name");
+            }
+
+            if (ModelState.IsValid)
+            {
+                obj.Id = villaId;
+                _db.Villas.Update(obj);
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }

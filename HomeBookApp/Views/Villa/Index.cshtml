@@ -35,6 +35,16 @@
                         <td>@obj.Price</td>
                         <td>@obj.Sqft</td>
                         <td>@obj.Occupancy</td>
+                        <td width="25%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-contrpller="Villa" asp-action="Update" asp-route-villaId="@obj.Id" class="btn btn-success mx-2">
+                                    <i class="bi bi-pencil-square"></i> Edit 
+                                </a>
+                                <a asp-controller="Villa" asp-action="Delete" asp-route-villaId="@obj.Id" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
