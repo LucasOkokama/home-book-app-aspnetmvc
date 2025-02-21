@@ -3,6 +3,7 @@ using HomeBookApp.Infrastructure.Data;
 using HomeBookApp.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeBookApp.Web.Controllers
 {
@@ -17,7 +18,7 @@ namespace HomeBookApp.Web.Controllers
 
         public IActionResult Index()
         {
-            var villaNumbers = _db.VillaNumbers.ToList();
+            var villaNumbers = _db.VillaNumbers.Include(u => u.Villa).ToList();
             return View(villaNumbers);
         }
 
