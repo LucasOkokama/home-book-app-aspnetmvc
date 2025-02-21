@@ -1,6 +1,7 @@
 ﻿using HomeBookApp.Domain.Entities;
 using HomeBookApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeBookApp.Web.Controllers
 {
@@ -58,7 +59,7 @@ namespace HomeBookApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Villa obj, int villaId)
+        public IActionResult Update(Villa obj)
         {
             if (obj.Name == obj.Description)
             {
@@ -67,16 +68,41 @@ namespace HomeBookApp.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                obj.Id = villaId;
                 _db.Villas.Update(obj);
                 _db.SaveChanges();
-
+                
                 return RedirectToAction("Index");
             }
             else
             {
                 return View();
             }
+        }
+
+        public IActionResult Delete(int villaId)
+        {
+            Villa? obj = _db.Villas.Find(villaId);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Villa obj)
+        {
+            Villa? objFromDb = _db.Villas.Find(obj.Id);
+            if(objFromDb is not null)
+            {
+                _db.Villas.Remove(objFromDb);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 }
