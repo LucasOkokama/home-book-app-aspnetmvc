@@ -37,7 +37,7 @@ namespace HomeBookApp.Web.Controllers
             {
                 _db.Villas.Add(obj);
                 _db.SaveChanges();
-
+                TempData["success"] = "The Villa has been created successfully.";
                 return RedirectToAction("Index");
             }
             else
@@ -70,7 +70,7 @@ namespace HomeBookApp.Web.Controllers
             {
                 _db.Villas.Update(obj);
                 _db.SaveChanges();
-                
+                TempData["success"] = "The Villa has been updated successfully.";
                 return RedirectToAction("Index");
             }
             else
@@ -99,9 +99,10 @@ namespace HomeBookApp.Web.Controllers
             {
                 _db.Villas.Remove(objFromDb);
                 _db.SaveChanges();
+                TempData["success"] = "The Villa has been deleted successfully.";
                 return RedirectToAction("Index");
             }
-
+            TempData["error"] = "The Villa could not be deleted.";
             return View();
         }
     }
