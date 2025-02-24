@@ -42,12 +42,27 @@ namespace HomeBookApp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.VillaNumbers.Add(obj.VillaNumber);
-                _db.SaveChanges();
-                TempData["success"] = "The Villa Number has been created successfully.";
-                return RedirectToAction("Index");
+                if(_db.VillaNumbers.Any(u => u.Villa_Number == obj.VillaNumber.Villa_Number))
+                {
+                    TempData["error"] = "The Villa number already exists.";
+                }
+                else
+                {
+                    _db.VillaNumbers.Add(obj.VillaNumber);
+                    _db.SaveChanges();
+                    TempData["success"] = "The Villa Number has been created successfully.";
+                    return RedirectToAction("Index");
+                }
             }
-            return View();
+
+            obj.VillaList = _db.Villas.Select(
+                    x => new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Name,
+                    });
+
+            return View(obj);
         }
 
         public IActionResult Update(int VillaNumberId)
