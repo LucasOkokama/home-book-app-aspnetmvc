@@ -47,7 +47,7 @@ namespace HomeBookApp.Web.Controllers
                 _db.VillaNumbers.Add(obj.VillaNumber);
                 _db.SaveChanges();
                 TempData["success"] = "The Villa Number has been created successfully.";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             if(roomNumberExists)
@@ -80,7 +80,7 @@ namespace HomeBookApp.Web.Controllers
 
             if(villaNumberVM.VillaNumber == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(villaNumberVM);
@@ -94,7 +94,7 @@ namespace HomeBookApp.Web.Controllers
                 _db.VillaNumbers.Update(obj.VillaNumber);
                 _db.SaveChanges();
                 TempData["success"] = "The Villa Number has been updated successfully.";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             obj.VillaList = _db.Villas.Select(
@@ -122,7 +122,7 @@ namespace HomeBookApp.Web.Controllers
 
             if (villaNumberVM.VillaNumber == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(villaNumberVM);
@@ -137,7 +137,7 @@ namespace HomeBookApp.Web.Controllers
                 _db.VillaNumbers.Remove(objFromDb);
                 _db.SaveChanges();
                 TempData["success"] = "The Villa Number has been deleted successfully.";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             TempData["error"] = "The Villa Number could not be deleted.";
             return View();
