@@ -21,6 +21,7 @@ namespace HomeBookApp.Domain.Entities
         [ValidateNever]
         public Villa Villa { get; set; }
 
+        [Display(Name = "Special Details")]
         public string? SpecialDetails { get; set; }
     }
 }

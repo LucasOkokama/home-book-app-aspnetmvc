@@ -40,19 +40,19 @@ namespace HomeBookApp.Web.Controllers
         [HttpPost]
         public IActionResult Create(VillaNumberVM obj)
         {
-            if (ModelState.IsValid)
+            bool roomNumberExists = _db.VillaNumbers.Any(u => u.Villa_Number == obj.VillaNumber.Villa_Number);
+            
+            if (ModelState.IsValid && !roomNumberExists)
             {
-                if(_db.VillaNumbers.Any(u => u.Villa_Number == obj.VillaNumber.Villa_Number))
-                {
-                    TempData["error"] = "The Villa number already exists.";
-                }
-                else
-                {
-                    _db.VillaNumbers.Add(obj.VillaNumber);
-                    _db.SaveChanges();
-                    TempData["success"] = "The Villa Number has been created successfully.";
-                    return RedirectToAction("Index");
-                }
+                _db.VillaNumbers.Add(obj.VillaNumber);
+                _db.SaveChanges();
+                TempData["success"] = "The Villa Number has been created successfully.";
+                return RedirectToAction("Index");
+            }
+
+            if(roomNumberExists)
+            {
+                TempData["error"] = "The Villa number already exists.";
             }
 
             obj.VillaList = _db.Villas.Select(
@@ -67,23 +67,44 @@ namespace HomeBookApp.Web.Controllers
 
         public IActionResult Update(int VillaNumberId)
         {
-            VillaNumber? obj = _db.VillaNumbers.Find(VillaNumberId);
-
-            if (obj == null)
+            VillaNumberVM villaNumberVM = new()
             {
-                return NotFound();
+                VillaList = _db.Villas.Select(
+                    x => new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Name,
+                    }),
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(u => u.Villa_Number == VillaNumberId)
+            };
+
+            if(villaNumberVM.VillaNumber == null)
+            {
+                return RedirectToAction("Index");
             }
 
-            return View(obj);
+            return View(villaNumberVM);
         }
 
         [HttpPost]
-        public IActionResult Update(VillaNumber obj)
+        public IActionResult Update(VillaNumberVM obj)
         {
-            _db.VillaNumbers.Update(obj);
-            _db.SaveChanges();
-            TempData["success"] = "The Villa Number has been updated successfully.";
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.VillaNumbers.Update(obj.VillaNumber);
+                _db.SaveChanges();
+                TempData["success"] = "The Villa Number has been updated successfully.";
+                return RedirectToAction("Index");
+            }
+
+            obj.VillaList = _db.Villas.Select(
+                    x => new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Name,
+                    });
+
+            return View(obj);
         }
 
         public IActionResult Delete(int VillaNumberId)
