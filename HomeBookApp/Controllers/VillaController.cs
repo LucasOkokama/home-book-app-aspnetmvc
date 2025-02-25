@@ -1,4 +1,5 @@
-﻿using HomeBookApp.Domain.Entities;
+﻿using HomeBookApp.Application.Common.Interfaces;
+using HomeBookApp.Domain.Entities;
 using HomeBookApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,16 +8,16 @@ namespace HomeBookApp.Web.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VillaController(ApplicationDbContext db)
+        public VillaController(IUnitOfWork unitOfWork)
         {
-            _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
+            var villas = _unitOfWork.Villa.GetAll();
             return View(villas);
         }
 
@@ -35,8 +36,8 @@ namespace HomeBookApp.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(obj);
-                _db.SaveChanges();
+                _unitOfWork.Villa.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "The Villa has been created successfully.";
                 return RedirectToAction(nameof(Index));
             }
@@ -48,7 +49,7 @@ namespace HomeBookApp.Web.Controllers
 
         public IActionResult Update(int villaId)
         {
-            Villa? obj = _db.Villas.Find(villaId);
+            Villa? obj = _unitOfWork.Villa.Get(u => u.Id == villaId);
             
             if(obj == null)
             {
@@ -68,8 +69,8 @@ namespace HomeBookApp.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Villas.Update(obj);
-                _db.SaveChanges();
+                _unitOfWork.Villa.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "The Villa has been updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
@@ -81,7 +82,7 @@ namespace HomeBookApp.Web.Controllers
 
         public IActionResult Delete(int villaId)
         {
-            Villa? obj = _db.Villas.Find(villaId);
+            Villa? obj = _unitOfWork.Villa.Get(u => u.Id == villaId);
 
             if (obj == null)
             {
@@ -94,11 +95,11 @@ namespace HomeBookApp.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa obj)
         {
-            Villa? objFromDb = _db.Villas.Find(obj.Id);
-            if(objFromDb is not null)
+            Villa? objFromDb = _unitOfWork.Villa.Get(u => u.Id == obj.Id);
+            if (objFromDb is not null)
             {
-                _db.Villas.Remove(objFromDb);
-                _db.SaveChanges();
+                _unitOfWork.Villa.Remove(objFromDb);
+                _unitOfWork.Save();
                 TempData["success"] = "The Villa has been deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
