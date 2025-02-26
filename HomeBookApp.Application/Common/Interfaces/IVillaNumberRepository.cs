@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeBookApp.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace HomeBookApp.Application.Common.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IVillaNumberRepository: IRepository<VillaNumber>
     {
-        IVillaRepository Villa { get; }
-        IVillaNumberRepository VillaNumber { get; }
-        void Save();
+        void Update(VillaNumber entity);
     }
 }
