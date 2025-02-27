@@ -21,6 +21,6 @@ namespace HomeBookApp.Domain.Entities
         public int VillaId { get; set; }
 
         [ValidateNever]
-        public Villa villa { get; set; }
+        public Villa Villa { get; set; }
     }
 }
