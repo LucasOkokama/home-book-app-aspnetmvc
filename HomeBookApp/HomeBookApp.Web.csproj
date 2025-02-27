@@ -18,4 +18,9 @@
     <ProjectReference Include="..\HomeBookApp.Infrastructure\HomeBookApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\TestImage\" />
+    <Folder Include="wwwroot\images\VillaImage\" />
+  </ItemGroup>
+
 </Project>

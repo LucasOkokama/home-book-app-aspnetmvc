@@ -9,10 +9,12 @@ namespace HomeBookApp.Web.Controllers
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnviroment;
 
-        public VillaController(IUnitOfWork unitOfWork)
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnviroment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnviroment = webHostEnviroment;
         }
 
         public IActionResult Index()
@@ -27,31 +29,44 @@ namespace HomeBookApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Villa obj)
+        public async Task<IActionResult> Create(Villa obj)
         {
-            if(obj.Name == obj.Description)
+            if (obj.Name == obj.Description)
             {
                 ModelState.AddModelError("Description", "The description cannot exactly match the Name");
             }
 
             if (ModelState.IsValid)
             {
+                if(obj.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(obj.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnviroment.WebRootPath, @"images\VillaImage");
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        obj.Image.CopyTo(fileStream);
+                    }
+                    obj.ImageUrl = @"\images\VillaImage\" + fileName;
+                }
+                else
+                {
+                    obj.ImageUrl = "https://placehold.co/600x400?text=Image+Placeholder";
+                }
+
                 _unitOfWork.Villa.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "The Villa has been created successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public IActionResult Update(int villaId)
         {
             Villa? obj = _unitOfWork.Villa.Get(u => u.Id == villaId);
-            
-            if(obj == null)
+
+            if (obj == null)
             {
                 return NotFound();
             }
