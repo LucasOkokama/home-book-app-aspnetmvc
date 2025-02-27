@@ -84,6 +84,28 @@ namespace HomeBookApp.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                if (obj.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(obj.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnviroment.WebRootPath, @"images\VillaImage");
+
+                    if (!string.IsNullOrEmpty(obj.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(_webHostEnviroment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        obj.Image.CopyTo(fileStream);
+                    }
+                    obj.ImageUrl = @"\images\VillaImage\" + fileName;
+                }
+
                 _unitOfWork.Villa.Update(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "The Villa has been updated successfully.";
