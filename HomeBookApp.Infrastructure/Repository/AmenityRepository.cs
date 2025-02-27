@@ -21,7 +21,7 @@ namespace HomeBookApp.Infrastructure.Repository
         
         public void Update(Amenity entity)
         {
-            _db.VillaNumbers.Update(entity);
+            _db.Amenities.Update(entity);
         }
     }
 }
