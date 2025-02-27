@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HomeBookApp.Web.ViewModels
 {
-    public class AmenityVM : Controller
+    public class AmenityVM
     {
         public Amenity? Amenity { get; set; }
 

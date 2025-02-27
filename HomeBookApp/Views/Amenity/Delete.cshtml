@@ -1,0 +1,53 @@
+﻿@model AmenityVM
+
+<div class="card border-0 p-4">
+    <div class="card-header bg-success bg-gradient">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-white pt-3 pb-2">Update Amenity</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <input asp-for="Amenity.Id" hidden />
+
+            <div>
+                <div class="form-floating mb-3 col-12">
+                    <select disabled asp-for="Amenity.VillaId" asp-items="@Model.VillaList" class="form-select border shadow">
+                        <option disabled selected> -- Select Villa -- </option>
+                    </select>
+                    <label asp-for="Amenity.VillaId"></label>
+                    <span asp-validation-for="Amenity.VillaId" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12">
+                    <input readonly asp-for="Amenity.Name" class="form-control" placeholder="">
+                    <label asp-for="Amenity.Name"></label>
+                    <span asp-validation-for="Amenity.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12">
+                    <input readonly asp-for="Amenity.Description" class="form-control" placeholder="">
+                    <label asp-for="Amenity.Description"></label>
+                    <span asp-validation-for="Amenity.Description" class="text-danger"></span>
+                </div>
+
+                <div class="row pt-4">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-outline-warning w-100">
+                            <i class="bi bi-check-circle"></i> Delete
+                        </button>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Amenity" asp-action="Index" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
