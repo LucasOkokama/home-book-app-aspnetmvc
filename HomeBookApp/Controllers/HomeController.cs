@@ -1,21 +1,29 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HomeBookApp.Models;
+using HomeBookApp.Application.Common.Interfaces;
+using HomeBookApp.Web.ViewModels;
 
 namespace HomeBookApp.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IUnitOfWork unitOfWork)
     {
-        _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        return View();
+        HomeVM homeVM = new()
+        {
+            VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenitiy"),
+            Nights = 1,
+            CheckInDate = DateOnly.FromDateTime(DateTime.Now)
+        };
+        return View(homeVM);
     }
 
     public IActionResult Privacy()
