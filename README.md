@@ -101,6 +101,25 @@ http://localhost:5129
 # References
 The development of this project was guided by the video [`Clean Architecture Fundaments in .NET Core MVC (.NET 8)`](https://www.youtube.com/watch?v=CAwpmoA7sno), produced by [`Bhrugen Patel`](https://github.com/bhrugen)
 
+# Project Screenshots
+### Homepage
+![Homepage](./readme-imgs/Homepage.png)
+
+### Villa Details
+![Homepage](./readme-imgs/Villa_Details.png)
+
+### Manage Amenities (list)
+![Homepage](./readme-imgs/Manage_Amenities.png)
+
+### Create Villa
+![Homepage](./readme-imgs/Create_Villa.png)
+
+### Update Villa
+![Homepage](./readme-imgs/Update_Villa.png)
+
+### Delete Villa
+![Homepage](./readme-imgs/Delete_Villa.png)
+
 # License
 ```
 MIT License
