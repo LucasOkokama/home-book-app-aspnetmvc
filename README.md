@@ -79,19 +79,23 @@ dotnet restore
   "DefaultConnection": "Server=NBLUCAS\\SQLEXPRESS;Database=HomeBookApp;Trusted_Connection=True;TrustServerCertificate=true"
 }
 ```
-4. Open the `HomeBookApp.Infrastructure` folder and `Run the migrations`:
+4. Install the `dotnet-ef` tool:
 ```
-cd ../homebookapp.infrastructure
-dotnet ef database update --startup-project /path/to/homebookapp.web
+dotnet tool install --global dotnet-ef
 ```
-5. Open the `HomeBookApp` folder and `Run the project`:
+5. Open the `HomeBookApp.Infrastructure` folder and `Run the migrations`:
+```
+cd HomeBookApp.Infrastructure
+dotnet ef database update --startup-project ../homebookapp
+```
+6. Open the `HomeBookApp` folder and `Run the project`:
 ```
 cd ../homebookapp
 dotnet run
 ```
-6. Access `localhost` to open the website:
+7. Access `localhost` to open the website:
 ```
-https://localhost:7097
+http://localhost:5129
 ```
 
 # References
