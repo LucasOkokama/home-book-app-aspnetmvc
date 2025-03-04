@@ -106,19 +106,19 @@ The development of this project was guided by the video [`Clean Architecture Fun
 ![Homepage](./readme-imgs/Homepage.png)
 
 ### Villa Details
-![Homepage](./readme-imgs/Villa_Details.png)
+![Villa Details](./readme-imgs/Villa_Details.png)
 
 ### Manage Amenities (list)
-![Homepage](./readme-imgs/Manage_Amenities.png)
+![Manage Amenities](./readme-imgs/Manage_Amenities.png)
 
 ### Create Villa
-![Homepage](./readme-imgs/Create_Villa.png)
+![Create Villa](./readme-imgs/Create_Villa.png)
 
 ### Update Villa
-![Homepage](./readme-imgs/Update_Villa.png)
+![Update Villa](./readme-imgs/Update_Villa.png)
 
 ### Delete Villa
-![Homepage](./readme-imgs/Delete_Villa.png)
+![Delete Villa](./readme-imgs/Delete_Villa.png)
 
 # License
 ```
